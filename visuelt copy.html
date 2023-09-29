@@ -1,0 +1,57 @@
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>PornHub</title> <!--setter navnet på siden til pornhub for å gjøre kona forvirret når hun ser på loggen-->
+    <script src="porter.json"> </script>
+    
+    <link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.3/dist/leaflet.css"
+    integrity="sha256-kLaT2GOSpHechhsozzB+flnD+zUyjE2LlfWPgU04xyI="
+    crossorigin=""/>
+        <script src="https://unpkg.com/leaflet@1.9.3/dist/leaflet.js"
+        integrity="sha256-WBkoXOwTeyKclOHuWtc+i2uENFpDZ9YPdf5Hf+D7ewM="
+        crossorigin=""> //henter kartet og linker scriptet til kartet inn i html-en
+        </script> 
+
+</head>
+<body> <!--diven under bestemmer hvor stort kartet skal være og hvor possisjonen dens er på skjermen-->
+        <div id="map" style="width: 1890px; height: 890px; position: relative;" class="leaflet-container leaflet-touch leaflet-fade-anim leaflet-grab leaflet-touch-drag leaflet-touch-zoom" tabindex="0">
+        <script>
+
+            const map = L.map('map').setView([20, -21], 2); //bestemmer hvor "view"-en på kartet er og hvor zoomet inn det er.
+        
+                const tiles = L.tileLayer('https://tile.openstreetmap.org/{z}/{x}/{y}.png', {
+                    maxZoom: 19,
+                    attribution: '&copy; <a href="http://www.openstreetmap.org/copyright">OpenStreetMap</a>'
+                }).addTo(map);//bestemmer oppbyggningen av tilene til kartet.
+
+            async function Dommernløsning() { //lager funksjon som heter dommernløsning fordi at jeg ikke klarte å hente ting fra json-en min uten hans hjelp.
+                const jsongreie = await fetch("porter.json");
+                const merjson = await jsongreie.json();//fetcher json-en og lagrer verdiene i json-en i merjson som en table eller noe sånt.
+
+                for(let i = 0; i < merjson.length; i++) { //lager en variabel som heter "i" i en for loop. denne variablen sin verdie er 0 men blir i+1 om verdien til i er mindre enn antall arrays i tabellen. dette funker mer eller mindre som python sin "for x in y"
+                    let obj = merjson[i]; //lagrer hver av arrayene i en variabel som heter obj
+                    console.log(obj);
+
+                    var varea = obj["city"];
+                    var varlat = obj["lat"];
+                    var varlong = obj["long"];
+                    var varip = obj["ip"];
+                    var vorgan = obj["organ"] //henter verdiene fra obj og lagrer dem i andre variabler.
+                    
+                    L.marker([varlat, varlong]).addTo(map)//legger til en nål som plasseres på possisjonen som bruker variablene varlong og varlat.
+                        .bindPopup('IP:'+ varip +  "<br>, City:" + varea + "<br>, Organization: " + vorgan) //legger til en poppup som viser noen verdier når man trykker på nålen
+                        .openPopup(); 
+                }
+                
+                $.get('/path/to/script.php', payload, function(response) {
+        alert('Sent the values!'); //jeg brukte dette i api oppgaven vi hadde i fjor. så ikke at dette var her før at jeg begynnte å kommentere. den får forbli ettersom at den ikke ødelegger noe.
+    });
+            }
+            Dommernløsning(); //aktiverer dommernløsning.
+
+        </script>  
+        </div>
+</body>
+</html> 

@@ -1,0 +1,61 @@
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>PornHub</title>
+    <script src="porter.json"> </script>
+    <link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.3/dist/leaflet.css"
+    integrity="sha256-kLaT2GOSpHechhsozzB+flnD+zUyjE2LlfWPgU04xyI="
+    crossorigin=""/>
+        <script src="https://unpkg.com/leaflet@1.9.3/dist/leaflet.js"
+        integrity="sha256-WBkoXOwTeyKclOHuWtc+i2uENFpDZ9YPdf5Hf+D7ewM="
+        crossorigin=""> 
+        </script>
+    <link rel="fugu konge.png" type="image/x-icon" href="fugu konge.png">
+
+</head>
+<body>
+
+        <div id="map" style="width: 900px; height: 912px; position: relative;" class="leaflet-container leaflet-touch leaflet-fade-anim leaflet-grab leaflet-touch-drag leaflet-touch-zoom" tabindex="0">
+        <script>
+            async function Dommernløsning() {
+                const jsongreie = await fetch("porter.json");
+                const merjson = await jsongreie.json();
+
+                for(let i = 0; i < merjson.length; i++) {
+                    let obj = merjson[i];
+                    console.log(obj);
+
+                    var varea = obj["city"];
+                    var varlat = obj["lat"];
+                    var varlong = obj["long"];
+                    var varip = obj["ip"];
+                    console.log(obj["varea"]);
+                    console.log(varea);
+                    
+
+
+                }
+               
+                const map = L.map('map').setView([varlat, varlong], 13);
+        
+                const tiles = L.tileLayer('https://tile.openstreetmap.org/{z}/{x}/{y}.png', {
+                    maxZoom: 19,
+                    attribution: '&copy; <a href="http://www.openstreetmap.org/copyright">OpenStreetMap</a>'
+                }).addTo(map);
+        
+                L.marker([varlat, varlong]).addTo(map)
+                    .bindPopup('IP:'+ varip +  "<br>, City:" + varea)
+                    .openPopup();
+                $.get('/path/to/script.php', payload, function(response) {
+        alert('Sent the values!');
+    });
+            }
+            Dommernløsning();
+
+            
+        </script>  
+        </div>
+</body>
+</html> 
